@@ -7,15 +7,19 @@ import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 import org.junit.Assert;
 import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 
-import static features.TestRunner.wd;
+import static features.RunnerTest.wd;
 
 public class LoginStepdefs {
     @Given("^I on Home Page$")
     public void iOnHomePage() throws Throwable {
-       String url = wd.getCurrentUrl();
-        Assert.assertEquals(url, "https://imgur.com/");
+        try{
+            wd.findElement(By.cssSelector("div.Message.welcome"));
+        } catch (NoSuchElementException ex){
+            wd.get("http://imgur.com/");
+        }
 
     }
 
@@ -67,7 +71,6 @@ public class LoginStepdefs {
 
     @And("^I logged in$")
     public void iLoggedIn() throws Throwable {
-        // Write code here that turns the phrase above into concrete actions
-        throw new PendingException();
+        assert wd.findElement(By.cssSelector("span.UserAvatar")).isDisplayed();
     }
 }

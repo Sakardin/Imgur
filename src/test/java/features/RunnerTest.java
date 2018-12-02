@@ -17,7 +17,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
         tags = "@wip"
 
 )
-public class TestRunner {
+public class RunnerTest {
     public static WebDriver wd;
     public static WebDriverWait wait;
 

@@ -5,7 +5,7 @@
   <nodes>
     <node x="0.0" y="79.0">features.step_definitions.MyFirstStepdefs</node>
     <node x="19.0" y="0.0">features.step_definitions.TestBase</node>
-    <node x="168.0" y="161.0">features.TestRunner</node>
+    <node x="168.0" y="161.0">features.RunnerTest</node>
   </nodes>
   <notes />
   <edges>
@@ -16,7 +16,7 @@
   </edges>
   <settings layout="Hierarchic Group" zoom="1.0" x="0.0" y="0.0" />
   <SelectedNodes>
-    <node>features.TestRunner</node>
+    <node>features.RunnerTest</node>
   </SelectedNodes>
   <Categories />
   <SCOPE>All</SCOPE>

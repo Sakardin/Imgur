@@ -75,15 +75,35 @@ Feature: New Home Page
     And I see big header
     When I scroll page
     Then Header is minimaze
-  @wip
+
   Scenario Outline:  Autocomplete suggests the search request
     Given I see Home Page
-     When I search "<target>"
-     Then I see "<result>" in search suggeasteed string
+    When I search "<target>"
+    Then I see "<result>" in search suggeasteed string
     Examples:
         |target|result|
         |C     |c     |
         |Ca    |ca    |
         |Car   |car   |
-
+#Footer navigation part
+  @wip
+  Scenario Outline:  Footer - about
+    Given I see Home Page
+    When I click "<target>" in Footer
+    Then I on "<result>" page
+    Examples:
+        |target|result|
+#        |About |about |
+#        |Press |press |
+#        |Blog  |blog  |
+#        |Privacy|privacy|
+#        |Terms  |tos    |
+#        |Advertise|advertise|
+        |Ad Choices|adchoices|
+        |Rules     |rules     |
+        |Help      |help      |
+        |Careers   |careers   |
+        |Store     |store     |
+        |API       |apidocs   |
+        |Get the App|mobileapps|
 

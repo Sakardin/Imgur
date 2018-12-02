@@ -9,14 +9,13 @@ import cucumber.api.java.en.When;
 import org.hamcrest.CoreMatchers;
 import org.junit.Assert;
 import org.openqa.selenium.*;
-import org.openqa.selenium.interactions.Action;
 import org.openqa.selenium.interactions.Actions;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static features.TestRunner.wait;
-import static features.TestRunner.wd;
+import static features.RunnerTest.wait;
+import static features.RunnerTest.wd;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.fail;
 
@@ -37,11 +36,11 @@ public class HomePageStepdefs {
 
     @Then("^I see Home Page$")
     public void iSeeHomePage() {
-        try{
-                wd.findElement(By.cssSelector("div.Message.welcome"));
-            } catch (NoSuchElementException ex){
-                wd.get("http://imgur.com/");
-            }
+        try {
+            wd.findElement(By.cssSelector("div.Message.welcome"));
+        } catch (NoSuchElementException ex) {
+            wd.get("http://imgur.com/");
+        }
     }
 
 //    Scenario: Tag page open
@@ -85,7 +84,7 @@ public class HomePageStepdefs {
     public void iSee(String mostViral) {
         WebElement dropmenu = wd
 //                .findElement(By.cssSelector("span.NewCover-change-sort-wrapper > div > div.Dropdown-title > span"))
-                .findElement(By.xpath("//div[@class='Dropdown-title'][.='"+mostViral+"']"));
+                .findElement(By.xpath("//div[@class='Dropdown-title'][.='" + mostViral + "']"));
 
 //        dropmenu.findElement(By.linkText(mostViral));
         List<WebElement> mostViralList = wd.findElements(By.cssSelector("div.Post-item-title > span"));
@@ -215,8 +214,9 @@ public class HomePageStepdefs {
         assert bestComments.equalsIgnoreCase("Best Comments");
     }
 
-//    Scenario: Number on post thumbnail is same as number of images in the post
+    //    Scenario: Number on post thumbnail is same as number of images in the post
     private int postNumberOnHP;
+
     @And("^I see Post with number$")
     public void iSeePostWithNumber() throws Throwable {
 //        wd.findElement(By.xpath("//a[@class='Post-item vetovote']/following-sibling::div[@class='Post-item-image-count']"));
@@ -231,11 +231,11 @@ public class HomePageStepdefs {
     @When("^I open post$")
     public void iOpenPost() throws Throwable {
         Thread.sleep(3000);
-       WebElement moreImages = wd.findElement(By.xpath("//a[@class='post-loadall btn btn-action']"));
-       Actions action = new Actions(wd);
-       action.moveToElement(moreImages);
-       action.perform();
-       moreImages.click();
+        WebElement moreImages = wd.findElement(By.xpath("//a[@class='post-loadall btn btn-action']"));
+        Actions action = new Actions(wd);
+        action.moveToElement(moreImages);
+        action.perform();
+        moreImages.click();
     }
 
     @Then("^I see same number of images$")
@@ -247,7 +247,7 @@ public class HomePageStepdefs {
 
     @When("^I scroll page$")
     public void iScrollPage() throws Throwable {
-        JavascriptExecutor jse = (JavascriptExecutor)wd;
+        JavascriptExecutor jse = (JavascriptExecutor) wd;
         jse.executeScript("window.scrollBy(0,1000)", "");
         Thread.sleep(3000);
     }
@@ -263,7 +263,7 @@ public class HomePageStepdefs {
         wd.findElement(By.cssSelector("div.Message.welcome"));
     }
 
-//    Scenario: Header minimaze when I scroll
+    //    Scenario: Header minimaze when I scroll
     @Then("^Header is minimaze$")
     public void headerIsMinimaze() throws Throwable {
         Assert.assertNotNull(wd.findElement(By.cssSelector("div.Message.welcome")));
@@ -276,21 +276,48 @@ public class HomePageStepdefs {
         wd.findElement(By.cssSelector("div.Message.welcome")).isDisplayed();
     }
 
-//    Scenario:  Autocomplete suggests the search request
+    //    Scenario:  Autocomplete suggests the search request
     @Then("^I see \"([^\"]*)\" in search suggeasteed string$")
     public void iSeeInSearchSuggeasteedString(String arg0) throws Throwable {
         List<WebElement> suggested = wd.findElements(By.cssSelector("a.class.Suggestion-item"));
-        List<String> suggestedText =new ArrayList<>();
+        List<String> suggestedText = new ArrayList<>();
         for (WebElement item : suggested) {
 //            System.out.println(item.getAttribute("title"));
             suggestedText.add(item.getAttribute("title"));
         }
-        for (String item :suggestedText){
+        for (String item : suggestedText) {
 //            System.out.println(item);
             Assert.assertThat(item, CoreMatchers.containsString(arg0));
         }
     }
 
 
+    @When("^I click \"([^\"]*)\" in Footer$")
+    public void iClickInFooter(String arg0) throws Throwable {
+        try {
+            wd.findElement(By.xpath("//div[@class='Footer Footer-slim']//a[contains(text(),'" + arg0 + "')]")).click();
+        } catch (ElementNotVisibleException ex) {
+            try {
+                wd.findElement(By.cssSelector("div.ButtonBackToTop.active"));
 
+                wd.findElement(By.xpath("//div[@class='Footer Footer-slim']//div[@class='Dropdown-title']")).click();
+
+                wd.findElement(By.xpath("//div[@class='Footer Footer-slim']//a[contains(text(),'" + arg0 + "')]")).click();
+            } catch (NoSuchElementException exp) {
+
+                wd.findElement(By.xpath("//div[@class='Footer Footer-slim']//div[@class='Dropdown-title']")).click();
+                Thread.sleep(1000);
+                wd.findElement(By.xpath("//div[@class='Footer Footer-slim']//a[contains(text(),'" + arg0 + "')]")).click();
+            }
+//            wd.findElement(By.xpath("//div[@class='Footer Footer-slim']//a[contains(text(),'"+ arg0 +"')]")).click();
+
+        }
+
+//        wd.findElement(By.xpath("//div[@class='Footer Footer-slim']//a[contains(text(),'"+ arg0 +"')]")).click();
+    }
+
+    @Then("^I on \"([^\"]*)\" page$")
+    public void iOnPage(String arg0) throws Throwable {
+        assert wd.getCurrentUrl().contains(arg0);
+    }
 }
