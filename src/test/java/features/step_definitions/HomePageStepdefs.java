@@ -294,26 +294,12 @@ public class HomePageStepdefs {
 
     @When("^I click \"([^\"]*)\" in Footer$")
     public void iClickInFooter(String arg0) throws Throwable {
-        try {
-            wd.findElement(By.xpath("//div[@class='Footer Footer-slim']//a[contains(text(),'" + arg0 + "')]")).click();
-        } catch (ElementNotVisibleException ex) {
-            try {
-                wd.findElement(By.cssSelector("div.ButtonBackToTop.active"));
-
-                wd.findElement(By.xpath("//div[@class='Footer Footer-slim']//div[@class='Dropdown-title']")).click();
-
-                wd.findElement(By.xpath("//div[@class='Footer Footer-slim']//a[contains(text(),'" + arg0 + "')]")).click();
-            } catch (NoSuchElementException exp) {
-
-                wd.findElement(By.xpath("//div[@class='Footer Footer-slim']//div[@class='Dropdown-title']")).click();
-                Thread.sleep(1000);
-                wd.findElement(By.xpath("//div[@class='Footer Footer-slim']//a[contains(text(),'" + arg0 + "')]")).click();
-            }
-//            wd.findElement(By.xpath("//div[@class='Footer Footer-slim']//a[contains(text(),'"+ arg0 +"')]")).click();
-
+        if(!wd.findElement(By.xpath("//div[@class='Footer Footer-slim']//a[contains(text(),'" + arg0 + "')]")).isDisplayed()) {
+//            wd.findElement(By.xpath("//div[@class='Footer Footer-slim']//div[@class='Dropdown-title']")).click();
+            wd.findElement(By.xpath("//div[@class='Footer Footer-slim']//img[@class='Dropdown-icon icon-points']")).click();
         }
+        wd.findElement(By.xpath("//div[@class='Footer Footer-slim']//a[contains(text(),'" + arg0 + "')]")).click();
 
-//        wd.findElement(By.xpath("//div[@class='Footer Footer-slim']//a[contains(text(),'"+ arg0 +"')]")).click();
     }
 
     @Then("^I on \"([^\"]*)\" page$")
